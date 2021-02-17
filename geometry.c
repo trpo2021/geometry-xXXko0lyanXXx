@@ -3,33 +3,53 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SIZE_INCREMENT 10
-
-void perimeter_n_area(char* str, int max_symb, int size_incr)
+void correct_spelling(char* str, int max_symb)
 {
-    char arr[max_symb];
-    int j = 0;
+    char check_str[] = {'c', 'i', 'r', 'c', 'l', 'e'};
+    char object_str[max_symb];
+    int i, j;
+    for (i = 0; str[i] != '('; i++) {
+        object_str[i] = str[i];
+    }
+    j = strcmp(object_str, check_str);
+    if (j != 0) {
+        printf("ERROR! Input is not correct\n");
+        printf("\"%s\" Not found\nDid you mean \"circle\"?\n", object_str);
+        exit(0);
+    };
+}
+void cirlce_output(char* str)
+{
+    fputs(str, stdout);
+}
 
-    for (int i = 0; i < max_symb - 1; i++) {
-        if ((str[i] == '(') || (str[i] == ' ') || (str[i] == ',')) { // circle(0 0, 1.5)
-            arr[j] = str[i + 1];
-            j++;
-        };
-        if (arr[i] == ')') {
-            break;
+void perimeter_n_area(char* str, int max_symb)
+{
+    int r = 0;
+    int i, k;
+    char radius[10];
+    float area, perimeter;
+    for (i = 0; i < max_symb; i++) {
+        if ((str[i] == ',') && (str[i + 1] == ' ')) {
+            for (k = i; str[k + 1] != ')'; k++) {
+                radius[k - i] = str[k + 1];
+            }
         };
     }
+    r = atoi(radius);
+    area = M_PI * r * r;
+    perimeter = 2 * M_PI * r;
+    printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
 }
 int main()
 {
     int max_symb = 40;
-    int size_incr = SIZE_INCREMENT;
     FILE* mf;
     mf = fopen("inputq.txt", "r");
     char sourse_str[max_symb];
     fgets(sourse_str, max_symb, mf);
-    perimeter_n_area(sourse_str, max_symb, size_incr);
-    fputs(sourse_str, stdout);
-    printf("\n");
+    correct_spelling(sourse_str, max_symb);
+    cirlce_output(sourse_str);
+    perimeter_n_area(sourse_str, max_symb);
     return 0;
 }
