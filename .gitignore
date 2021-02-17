@@ -1,3 +1,8 @@
-#ignore geometry_coords.c
-geometry_coords.c
+#ignore object files
+*.o
 
+#ignore *geometry file
+*geometry
+
+#ignore .swp files
+*.swp
