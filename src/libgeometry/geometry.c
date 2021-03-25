@@ -1,9 +1,18 @@
+#include "libgeometry/geometry.h"
+#include <ctype.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "libgeometry/geometry.h"
-
+void string_tolower(char* str, int max_symb)
+{
+    int i;
+    for (i = 0; i < max_symb; i++) {
+    if(isalpha(str[i]) != 0){
+            str[i] = tolower(str[i]);
+    }
+    }
+}
 void correct_spelling(char* str, int max_symb)
 {
     char check_str[] = {'c', 'i', 'r', 'c', 'l', 'e'};
@@ -41,5 +50,5 @@ void perimeter_n_area(char* str, int max_symb)
     area = M_PI * r * r;
     perimeter = 2 * M_PI * r;
     printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
-}
+    }
 

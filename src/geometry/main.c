@@ -10,6 +10,7 @@ int main()
     char sourse_str[max_symb];
     printf("Input your figure\n");
     fgets(sourse_str, max_symb, stdin);
+    string_tolower(sourse_str, max_symb);
     correct_spelling(sourse_str, max_symb);
     cirlce_output(sourse_str);
     perimeter_n_area(sourse_str, max_symb);
