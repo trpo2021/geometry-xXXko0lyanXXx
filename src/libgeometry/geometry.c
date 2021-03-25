@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "libgeometry/geometry.h"
 
 void correct_spelling(char* str, int max_symb)
 {
@@ -41,15 +42,4 @@ void perimeter_n_area(char* str, int max_symb)
     perimeter = 2 * M_PI * r;
     printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
 }
-int main()
-{
-    int max_symb = 40;
-    FILE* mf;
-    mf = fopen("inputq.txt", "r");
-    char sourse_str[max_symb];
-    fgets(sourse_str, max_symb, mf);
-    correct_spelling(sourse_str, max_symb);
-    cirlce_output(sourse_str);
-    perimeter_n_area(sourse_str, max_symb);
-    return 0;
-}
+

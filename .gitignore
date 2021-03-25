@@ -1,8 +1,9 @@
-#ignore object files
+*.a
+
+*.d
+
 *.o
 
-#ignore *geometry file
-*geometry
-
-#ignore .swp files
 *.swp
+
+bin/geometry
