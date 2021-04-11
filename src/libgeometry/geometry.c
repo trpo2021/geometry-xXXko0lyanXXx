@@ -4,21 +4,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-void string_tolower(char* str, int max_symb)
+char* string_tolower(char* str, int max_symb)
 {
     int i;
     for (i = 0; i < max_symb; i++) {
-    if(isalpha(str[i]) != 0){
+        if (isalpha(str[i]) != 0) {
             str[i] = tolower(str[i]);
+        }
     }
-    }
+    return str;
 }
-void correct_spelling(char* str, int max_symb)
+
+void correct_spelling_object(char* str, int max_symb)
 {
     char check_str[] = {'c', 'i', 'r', 'c', 'l', 'e'};
-    char object_str[max_symb];
-    int i, j;
-    for (i = 0; str[i] != '('; i++) {
+    int j;
+    char* object_str;
+    object_str = (char*)calloc(max_symb, sizeof(char));
+    for (int i = 0; str[i] != '('; i++) {
         object_str[i] = str[i];
     }
     j = strcmp(object_str, check_str);
@@ -28,7 +31,39 @@ void correct_spelling(char* str, int max_symb)
         exit(0);
     };
 }
-void cirlce_output(char* str)
+int check_for_uncorrect_spaces(char* str, int max_symb)
+{
+    char* arrow_str;
+    int flag = 0, isdig;
+    int* unc_spcs_index;
+    unc_spcs_index = (int*)calloc(max_symb, sizeof(int));
+    arrow_str = (char*)calloc(max_symb, sizeof(char));
+    int k = 0;
+    for (int i = 0; str[i] != '\n'; i++) {
+        if ((str[i] == ' ') && ((isdig = isdigit(str[i + 1])) == 0)
+            && (str[i + 1] != ',')) {
+            unc_spcs_index[i] = i + 1;
+            flag = 1;
+        }
+    }
+    if (flag == 1) {
+        printf("ERROR! ");
+        printf("Uncorrcect spaces!\n");
+        circle_output(str);
+        for (; str[k] != '\n'; k++) {
+            if (unc_spcs_index[k] == k + 1) {
+                arrow_str[k] = '^';
+            } else
+                arrow_str[k] = '-';
+        }
+        circle_output(arrow_str);
+        printf("\n");
+        exit(0);
+    }
+    return 0;
+}
+
+void circle_output(char* str)
 {
     fputs(str, stdout);
 }
@@ -50,5 +85,5 @@ void perimeter_n_area(char* str, int max_symb)
     area = M_PI * r * r;
     perimeter = 2 * M_PI * r;
     printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
-    }
+}
 
