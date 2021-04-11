@@ -12,7 +12,7 @@ int main()
     fgets(source_str, max_symb, stdin);
     source_str = string_tolower(source_str, max_symb);
     check_for_uncorrect_spaces(source_str, max_symb);
-  //  check_brackets(source_str, max_symb);
+    check_brackets(source_str, max_symb);
     check_for_uncorrect_symbols(source_str, max_symb);
     correct_spelling_object(source_str, max_symb);
     circle_output(source_str);

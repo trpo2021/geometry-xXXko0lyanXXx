@@ -83,6 +83,32 @@ void check_for_uncorrect_symbols(char* str, int max_symb)
         }
     }
 }
+void check_brackets(char* str, int max_symb)
+{
+    
+    int sum_of_letters, i, k;
+    sum_of_letters = 0;
+    k = i = 0;
+    char *arrow_str;
+    arrow_str = (char*)calloc(max_symb, sizeof(char));
+    while (str[sum_of_letters] != '(') {
+        sum_of_letters++;
+    }
+    for (i = sum_of_letters + 1; str[i] != '\n'; i++) {
+    if((isdigit(str[i]) == 0) && (str[i] != ' ') && (str[i] != ',') && (str[i] != ')')){
+            printf("ERROR! ");
+            printf("Unknown symbol \"%c\" at column %d!\n", str[i], i + 1);
+            circle_output(str);
+            for (; k != i; k++) {
+                arrow_str[k] = '-';
+                arrow_str[k + 1] = '^';
+            }
+            circle_output(arrow_str);
+            printf("\n");
+            exit(0);
+        }
+    }
+}
 void circle_output(char* str)
 {
     fputs(str, stdout);
