@@ -62,7 +62,27 @@ int check_for_uncorrect_spaces(char* str, int max_symb)
     }
     return 0;
 }
-
+void check_for_uncorrect_symbols(char* str, int max_symb)
+{
+    char* arrow_str;
+    arrow_str = (char*)calloc(max_symb, sizeof(char));
+    int k = 0;
+    for (int i = 0; str[i] != '\n'; i++) {
+        if ((isalpha(str[i]) == 0) && (isdigit(str[i]) == 0) && (str[i] != ' ')
+            && (str[i] != ',') && (str[i] != '(') && (str[i] != ')')) {
+            printf("ERROR! ");
+            printf("Unknown symbol \"%c\" at column %d!\n", str[i], i + 1);
+            circle_output(str);
+            for (; k != i; k++) {
+                arrow_str[k] = '-';
+                arrow_str[k + 1] = '^';
+            }
+            circle_output(arrow_str);
+            printf("\n");
+            exit(0);
+        }
+    }
+}
 void circle_output(char* str)
 {
     fputs(str, stdout);

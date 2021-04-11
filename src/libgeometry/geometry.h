@@ -8,5 +8,6 @@ void circle_output(char* str);
 void perimeter_n_area(char* str, int max_symb);
 char* string_tolower(char* str, int max_symb);
 int check_for_uncorrect_spaces(char* str, int max_symb);
+void check_for_uncorrect_symbols(char* str, int max_symb);
 
 #endif
