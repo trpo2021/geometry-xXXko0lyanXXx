@@ -85,7 +85,7 @@ void check_for_uncorrect_symbols(char* str, int max_symb)
 }
 void check_brackets(char* str, int max_symb)
 {
-    s int sum_of_letters, i, k;
+    int sum_of_letters, i, k;
     sum_of_letters = 0;
     k = i = 0;
     char* arrow_str;
@@ -132,4 +132,3 @@ void perimeter_n_area(char* str, int max_symb)
     perimeter = 2 * M_PI * r;
     printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
 }
-
