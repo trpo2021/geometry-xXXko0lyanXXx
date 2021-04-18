@@ -28,8 +28,11 @@ void correct_spelling_object(char* str, int max_symb)
     if (j != 0) {
         printf("ERROR! Input is not correct\n");
         printf("\"%s\" Not found\nDid you mean \"circle\"?\n", object_str);
-        exit(0);
+        free(object_str);
+        free(str);
+        exit(1);
     };
+    free(object_str);
 }
 int check_for_uncorrect_spaces(char* str, int max_symb)
 {
@@ -58,8 +61,13 @@ int check_for_uncorrect_spaces(char* str, int max_symb)
         }
         circle_output(arrow_str);
         printf("\n");
-        exit(0);
+        free(unc_spcs_index);
+        free(arrow_str);
+        free(str);
+        exit(1);
     }
+    free(unc_spcs_index);
+    free(arrow_str);
     return 0;
 }
 void check_for_uncorrect_symbols(char* str, int max_symb)
@@ -79,9 +87,12 @@ void check_for_uncorrect_symbols(char* str, int max_symb)
             }
             circle_output(arrow_str);
             printf("\n");
-            exit(0);
+            free(arrow_str);
+            free(str);
+            exit(1);
         }
     }
+    free(arrow_str);
 }
 void check_brackets(char* str, int max_symb)
 {
@@ -105,9 +116,12 @@ void check_brackets(char* str, int max_symb)
             }
             circle_output(arrow_str);
             printf("\n");
-            exit(0);
+            free(arrow_str);
+            free(str);
+            exit(1);
         }
     }
+    free(arrow_str);
 }
 void circle_output(char* str)
 {

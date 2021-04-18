@@ -17,5 +17,6 @@ int main()
     correct_spelling_object(source_str, max_symb);
     circle_output(source_str);
     perimeter_n_area(source_str, max_symb);
+    free(source_str);
     return 0;
 }
