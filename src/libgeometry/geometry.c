@@ -4,6 +4,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+figure* init_figures(int sum_of_figures)
+{
+   int i;
+   figure* ptr = malloc(sum_of_figures * sizeof(figure));
+   if (!ptr) {
+       return NULL;
+    }
+    for(i = 0; i < sum_of_figures; i ++){
+    ptr[i].circle_string = malloc(MAX_SYMB * sizeof(char));
+    if (!ptr -> circle_string) {
+    free(ptr);
+    return NULL;
+    }
+    }
+    return ptr;
+}
 char* string_tolower(char* str, int max_symb)
 {
     int i;
@@ -34,7 +51,7 @@ void correct_spelling_object(char* str, int max_symb)
     };
     free(object_str);
 }
-int check_for_uncorrect_spaces(char* str, int max_symb)
+int check_for_uncorrect_spaces(char* str, int max_symb, int index)
 {
     char* arrow_str;
     int flag = 0, isdig;
@@ -52,14 +69,14 @@ int check_for_uncorrect_spaces(char* str, int max_symb)
     if (flag == 1) {
         printf("ERROR! ");
         printf("Uncorrcect spaces!\n");
-        circle_output(str);
+        circle_output(str, index);
         for (; str[k] != '\n'; k++) {
             if (unc_spcs_index[k] == k + 1) {
                 arrow_str[k] = '^';
             } else
                 arrow_str[k] = '-';
         }
-        circle_output(arrow_str);
+        arrow_output(arrow_str);
         printf("\n");
         free(unc_spcs_index);
         free(arrow_str);
@@ -70,7 +87,7 @@ int check_for_uncorrect_spaces(char* str, int max_symb)
     free(arrow_str);
     return 0;
 }
-void check_for_uncorrect_symbols(char* str, int max_symb)
+void check_for_uncorrect_symbols(char* str, int max_symb, int index)
 {
     char* arrow_str;
     arrow_str = (char*)calloc(max_symb, sizeof(char));
@@ -80,12 +97,12 @@ void check_for_uncorrect_symbols(char* str, int max_symb)
             && (str[i] != ',') && (str[i] != '(') && (str[i] != ')')) {
             printf("ERROR! ");
             printf("Unknown symbol \"%c\" at column %d!\n", str[i], i + 1);
-            circle_output(str);
+            circle_output(str, index);
             for (; k != i; k++) {
                 arrow_str[k] = '-';
                 arrow_str[k + 1] = '^';
             }
-            circle_output(arrow_str);
+            arrow_output(arrow_str);
             printf("\n");
             free(arrow_str);
             free(str);
@@ -94,7 +111,7 @@ void check_for_uncorrect_symbols(char* str, int max_symb)
     }
     free(arrow_str);
 }
-void check_brackets(char* str, int max_symb)
+void check_brackets(char* str, int max_symb, int index)
 {
     int sum_of_letters, i, k;
     sum_of_letters = 0;
@@ -109,12 +126,12 @@ void check_brackets(char* str, int max_symb)
             && (str[i] != ')')) {
             printf("ERROR! ");
             printf("Unknown symbol \"%c\" at column %d!\n", str[i], i + 1);
-            circle_output(str);
+            circle_output(str, index);
             for (; k != i; k++) {
                 arrow_str[k] = '-';
                 arrow_str[k + 1] = '^';
             }
-            circle_output(arrow_str);
+            arrow_output(arrow_str);
             printf("\n");
             free(arrow_str);
             free(str);
@@ -123,14 +140,15 @@ void check_brackets(char* str, int max_symb)
     }
     free(arrow_str);
 }
-void circle_output(char* str)
+void circle_output(char* str, int index)
 {
+    printf("%d. ", index);
     fputs(str, stdout);
 }
 
 void perimeter_n_area(char* str, int max_symb)
 {
-    int r = 0;
+    int r;
     int i, k;
     char radius[10];
     float area, perimeter;
@@ -146,3 +164,8 @@ void perimeter_n_area(char* str, int max_symb)
     perimeter = 2 * M_PI * r;
     printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
 }
+void arrow_output(char* arrow_str)
+{
+    fputs(arrow_str, stdout);
+}
+
