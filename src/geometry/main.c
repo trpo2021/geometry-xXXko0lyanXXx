@@ -39,9 +39,9 @@ int main(int argc, char** argv)
     for (i = 0; i < sum_of_figures; i++) {
         string_tolower(circle[i].str, max_symb);
         skip_spaces(circle[i].str, converted_str);
+        correct_spelling_object(converted_str, max_symb);
         check_brackets(converted_str, max_symb, i + 1);
         check_for_uncorrect_symbols(converted_str, max_symb, i + 1);
-        correct_spelling_object(converted_str, max_symb);
         circle_output(converted_str, i + 1);
         perimeter_and_area(circle[i], max_symb);
     }

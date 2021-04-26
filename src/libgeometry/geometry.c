@@ -64,7 +64,11 @@ void check_for_uncorrect_symbols(char* str, int max_symb, int index)
             circle_output(str, index);
             for (; k != i; k++) {
                 arrow_str[k] = '-';
-                arrow_str[k + 1] = '^';
+                arrow_str[k + 1] = '-';
+                arrow_str[k + 2] = '-';
+                arrow_str[k + 3] = '-';
+                arrow_str[k + 4] = '^';
+            }
             }
             arrow_output(arrow_str);
             printf("\n");
@@ -73,8 +77,6 @@ void check_for_uncorrect_symbols(char* str, int max_symb, int index)
             exit(1);
         }
     }
-    free(arrow_str);
-}
 void check_brackets(char* str, int max_symb, int index)
 {
     int sum_of_letters, i, k;
@@ -94,7 +96,10 @@ void check_brackets(char* str, int max_symb, int index)
             printf("\n");
             for (; k != i; k++) {
                 arrow_str[k] = '-';
-                arrow_str[k + 1] = '^';
+                arrow_str[k + 1] = '-';
+                arrow_str[k + 2] = '-';
+                arrow_str[k + 3] = '-';
+                arrow_str[k + 4] = '^';
             }
             arrow_output(arrow_str);
             printf("\n");
