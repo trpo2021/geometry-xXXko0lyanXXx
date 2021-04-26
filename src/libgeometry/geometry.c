@@ -7,21 +7,21 @@
 
 figure* init_figures(int sum_of_figures)
 {
-   int i;
-   figure* ptr = malloc(sum_of_figures * sizeof(figure));
-   if (!ptr) {
-       return NULL;
+    int i;
+    figure* ptr = malloc(sum_of_figures * sizeof(figure));
+    if (!ptr) {
+        return NULL;
     }
-    for(i = 0; i < sum_of_figures; i ++){
-    ptr[i].circle_string = malloc(MAX_SYMB * sizeof(char));
-    if (!ptr -> circle_string) {
-    free(ptr);
-    return NULL;
-    }
+    for (i = 0; i < sum_of_figures; i++) {
+        ptr[i].str = malloc(MAX_SYMB * sizeof(char));
+        if (!ptr->str) {
+            free(ptr);
+            return NULL;
+        }
     }
     return ptr;
 }
-char* string_tolower(char* str, int max_symb)
+void string_tolower(char* str, int max_symb)
 {
     int i;
     for (i = 0; i < max_symb; i++) {
@@ -29,7 +29,6 @@ char* string_tolower(char* str, int max_symb)
             str[i] = tolower(str[i]);
         }
     }
-    return str;
 }
 
 void correct_spelling_object(char* str, int max_symb)
@@ -51,42 +50,7 @@ void correct_spelling_object(char* str, int max_symb)
     };
     free(object_str);
 }
-int check_for_uncorrect_spaces(char* str, int max_symb, int index)
-{
-    char* arrow_str;
-    int flag = 0, isdig;
-    int* unc_spcs_index;
-    unc_spcs_index = (int*)calloc(max_symb, sizeof(int));
-    arrow_str = (char*)calloc(max_symb, sizeof(char));
-    int k = 0;
-    for (int i = 0; str[i] != '\n'; i++) {
-        if ((str[i] == ' ') && ((isdig = isdigit(str[i + 1])) == 0)
-            && (str[i + 1] != ',')) {
-            unc_spcs_index[i] = i + 1;
-            flag = 1;
-        }
-    }
-    if (flag == 1) {
-        printf("ERROR! ");
-        printf("Uncorrcect spaces!\n");
-        circle_output(str, index);
-        for (; str[k] != '\n'; k++) {
-            if (unc_spcs_index[k] == k + 1) {
-                arrow_str[k] = '^';
-            } else
-                arrow_str[k] = '-';
-        }
-        arrow_output(arrow_str);
-        printf("\n");
-        free(unc_spcs_index);
-        free(arrow_str);
-        free(str);
-        exit(1);
-    }
-    free(unc_spcs_index);
-    free(arrow_str);
-    return 0;
-}
+
 void check_for_uncorrect_symbols(char* str, int max_symb, int index)
 {
     char* arrow_str;
@@ -127,6 +91,7 @@ void check_brackets(char* str, int max_symb, int index)
             printf("ERROR! ");
             printf("Unknown symbol \"%c\" at column %d!\n", str[i], i + 1);
             circle_output(str, index);
+            printf("\n");
             for (; k != i; k++) {
                 arrow_str[k] = '-';
                 arrow_str[k + 1] = '^';
@@ -146,24 +111,70 @@ void circle_output(char* str, int index)
     fputs(str, stdout);
 }
 
-void perimeter_n_area(char* str, int max_symb)
+void perimeter_and_area(figure circle, int max_symb)
 {
-    int r;
     int i, k;
     char radius[10];
     float area, perimeter;
     for (i = 0; i < max_symb; i++) {
-        if ((str[i] == ',') && (str[i + 1] == ' ')) {
-            for (k = i; str[k + 1] != ')'; k++) {
-                radius[k - i] = str[k + 1];
+        if ((circle.str[i] == ',') && (circle.str[i + 1] == ' ')) {
+            for (k = i; circle.str[k + 1] != ')'; k++) {
+                radius[k - i] = circle.str[k + 1];
             }
         };
     }
-    r = atoi(radius);
-    area = M_PI * r * r;
-    perimeter = 2 * M_PI * r;
+    circle.radius = atoi(radius);
+    area = M_PI * circle.radius * circle.radius;
+    perimeter = 2 * M_PI * circle.radius;
     printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
 }
+void skip_spaces(char* str, char* conv_str)
+{
+    int i = 0, j;
+    i = skip_one_space(str, i);
+    for (j = 0; (str[i] != '(') && (str[i] != ' '); i++, j++) {
+        conv_str[j] = str[i];
+    }
+    conv_str[j] = '(';
+    j++;
+    while ((str[i] != '-') && (isdigit(str[i]) == 0)) {
+        i++;
+    }
+    for (; str[i] != ' '; i++, j++) {
+        conv_str[j] = str[i];
+    }
+    conv_str[j] = ' ';
+    j++;
+    i = skip_one_space(str, i);
+    for (; (str[i] != ',') && (str[i] != ' '); i++, j++) {
+        conv_str[j] = str[i];
+    }
+    conv_str[j] = ',';
+    j++;
+    conv_str[j] = ' ';
+    j++;
+    i = skip_one_space(str, i);
+    if (str[i] == ',') {
+        i++;
+    }
+    i = skip_one_space(str, i);
+    for (; (str[i] != ')') && (str[i] != ' '); i++, j++) {
+        conv_str[j] = str[i];
+    }
+    conv_str[j] = ')';
+    j++;
+    conv_str[j] = '\n';
+}
+
+int skip_one_space(char str[], int i)
+{
+    while (str[i] == ' ') {
+        i++;
+    }
+    return i;
+}
+
+
 void arrow_output(char* arrow_str)
 {
     fputs(arrow_str, stdout);
