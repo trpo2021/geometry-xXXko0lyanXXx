@@ -50,66 +50,86 @@ void correct_spelling_object(char* str, int max_symb)
     };
     free(object_str);
 }
-
-void check_for_uncorrect_symbols(char* str, int max_symb, int index)
+int skip_digit(int i, char* str)
 {
-    char* arrow_str;
-    arrow_str = (char*)calloc(max_symb, sizeof(char));
-    int k = 0;
-    for (int i = 0; str[i] != '\n'; i++) {
-        if ((isalpha(str[i]) == 0) && (isdigit(str[i]) == 0) && (str[i] != ' ')
-            && (str[i] != ',') && (str[i] != '(') && (str[i] != ')')) {
-            printf("ERROR! ");
-            printf("Unknown symbol \"%c\" at column %d!\n", str[i], i + 1);
-            circle_output(str, index);
-            for (; k != i; k++) {
-                arrow_str[k] = '-';
-                arrow_str[k + 1] = '-';
-                arrow_str[k + 2] = '-';
-                arrow_str[k + 3] = '-';
-                arrow_str[k + 4] = '^';
-            }
-            }
-            arrow_output(arrow_str);
-            printf("\n");
-            free(arrow_str);
-            free(str);
-            exit(1);
-        }
+    while (isdigit(str[i]) != 0) {
+        i++;
     }
-void check_brackets(char* str, int max_symb, int index)
-{
-    int sum_of_letters, i, k;
-    sum_of_letters = 0;
-    k = i = 0;
-    char* arrow_str;
-    arrow_str = (char*)calloc(max_symb, sizeof(char));
-    while (str[sum_of_letters] != '(') {
-        sum_of_letters++;
-    }
-    for (i = sum_of_letters + 1; str[i] != '\n'; i++) {
-        if ((isdigit(str[i]) == 0) && (str[i] != ' ') && (str[i] != ',')
-            && (str[i] != ')')) {
-            printf("ERROR! ");
-            printf("Unknown symbol \"%c\" at column %d!\n", str[i], i + 1);
-            circle_output(str, index);
-            printf("\n");
-            for (; k != i; k++) {
-                arrow_str[k] = '-';
-                arrow_str[k + 1] = '-';
-                arrow_str[k + 2] = '-';
-                arrow_str[k + 3] = '-';
-                arrow_str[k + 4] = '^';
-            }
-            arrow_output(arrow_str);
-            printf("\n");
-            free(arrow_str);
-            free(str);
-            exit(1);
-        }
-    }
-    free(arrow_str);
+    return i;
 }
+int check_points(char* str)
+{
+    int index_of_symbol = 0;
+    while (isalpha(str[index_of_symbol]) != 0) {
+        index_of_symbol++;
+    }
+    if (str[index_of_symbol] != '(') {
+        printf("Error! Expected '(' \n");
+        return -10;
+    }
+    index_of_symbol++;
+    if ((isdigit(str[index_of_symbol]) == 0) && (str[index_of_symbol] != '-')) {
+        return 1;
+    } else if (str[index_of_symbol] == '-') {
+        index_of_symbol++;
+    }
+    if (isdigit(str[index_of_symbol] == 0)) {
+        return -1;
+    }
+    index_of_symbol = skip_digit(index_of_symbol, str);
+    if (str[index_of_symbol] != '.') {
+        return -2;
+    }
+    index_of_symbol++;
+    index_of_symbol = skip_digit(index_of_symbol, str);
+    if (str[index_of_symbol] != ' ') {
+        return -3;
+    }
+    index_of_symbol++;
+    if ((isdigit(str[index_of_symbol]) == 0) && (str[index_of_symbol] != '-')) {
+        return 4;
+    } else if (str[index_of_symbol] == '-') {
+        index_of_symbol++;
+    }
+    if (isdigit(str[index_of_symbol]) == 0) {
+        return -4;
+    }
+    index_of_symbol = skip_digit(index_of_symbol, str);
+    if (str[index_of_symbol] != '.') {
+        return -5;
+    }
+    index_of_symbol++;
+    index_of_symbol = skip_digit(index_of_symbol, str);
+    if (str[index_of_symbol] != ',') {
+        return -6;
+    }
+    index_of_symbol++;
+    if (str[index_of_symbol] != ' ') {
+        return -7;
+    }
+    index_of_symbol++;
+    if ((isdigit(str[index_of_symbol]) == 0) && (str[index_of_symbol] != '-')) {
+        return 8;
+    } else if (str[index_of_symbol] == '-') {
+        index_of_symbol++;
+    }
+    if (isdigit(str[index_of_symbol]) == 0) {
+        return -8;
+    }
+    index_of_symbol = skip_digit(index_of_symbol, str);
+    if (str[index_of_symbol] != '.') {
+        return -9;
+    }
+    index_of_symbol++;
+    index_of_symbol = skip_digit(index_of_symbol, str);
+    if (str[index_of_symbol] != ')') {
+        printf("Error! Expected ')' \n");
+        return 10;
+    }
+
+    return 0;
+}
+
 void circle_output(char* str, int index)
 {
     printf("%d. ", index);
@@ -128,7 +148,7 @@ void perimeter_and_area(figure circle, int max_symb)
             }
         };
     }
-    circle.radius = atoi(radius);
+    circle.radius = atof(radius);
     area = M_PI * circle.radius * circle.radius;
     perimeter = 2 * M_PI * circle.radius;
     printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
@@ -178,7 +198,6 @@ int skip_one_space(char str[], int i)
     }
     return i;
 }
-
 
 void arrow_output(char* arrow_str)
 {

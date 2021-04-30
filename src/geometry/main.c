@@ -12,8 +12,9 @@ int main(int argc, char** argv)
     exit(228);
     } */
     
-    int sum_of_figures;
+    int sum_of_figures, exit_code;
     int max_symb = 40;
+    
     char *converted_str = calloc(max_symb, sizeof(char));
     if (argc > 2) {
         printf("Invalid number of parameters\n");
@@ -40,10 +41,16 @@ int main(int argc, char** argv)
         string_tolower(circle[i].str, max_symb);
         skip_spaces(circle[i].str, converted_str);
         correct_spelling_object(converted_str, max_symb);
-        check_brackets(converted_str, max_symb, i + 1);
-        check_for_uncorrect_symbols(converted_str, max_symb, i + 1);
+        exit_code = check_points(converted_str);
         circle_output(converted_str, i + 1);
+        if (exit_code != 0){
+        continue;
+        }
         perimeter_and_area(circle[i], max_symb);
     }
+    for (i = 0; i < sum_of_figures; i++){
+    free(circle[i].str);
+    }
+    free(circle);
     return 0;
 }

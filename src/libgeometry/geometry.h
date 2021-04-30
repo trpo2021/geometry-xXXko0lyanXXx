@@ -5,7 +5,7 @@
 typedef struct{
     char* str;
     
-    int radius;    
+    double radius;    
     int x;
     int y;
 } figure;
@@ -13,6 +13,7 @@ typedef struct{
 figure* circle;
 int skip_one_space(char* str, int i);
 void skip_spaces(char* str, char* conv_str);
+int check_points(char* str);
 figure* init_figures(int sum_of_figures);
 void correct_spelling_object(char* only_letters, int max_symb);
 void circle_output(char* str, int index);
