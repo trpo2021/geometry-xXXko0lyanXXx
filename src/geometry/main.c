@@ -1,21 +1,11 @@
 #include "libgeometry/geometry.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 int main(int argc, char** argv)
 {
     int i;
-    //FILE* input_file = fopen("input.txt", "r+");
-    /*if(input_file == NULL){
-    printf("ERROR\n");
-    exit(228);
-    } */
-    
     int sum_of_figures, exit_code;
-    int max_symb = 40;
-    
-    char *converted_str = calloc(max_symb, sizeof(char));
+
+    char* converted_str = calloc(MAX_SYMB, sizeof(char));
     if (argc > 2) {
         printf("Invalid number of parameters\n");
         printf("./geometry <number of circles>\n");
@@ -35,21 +25,29 @@ int main(int argc, char** argv)
         circle = init_figures(sum_of_figures);
     }
     for (i = 0; i < sum_of_figures; i++) {
-        fgets(circle[i].str, max_symb, stdin);
+        fgets(circle[i].str, MAX_SYMB, stdin);
     }
     for (i = 0; i < sum_of_figures; i++) {
-        string_tolower(circle[i].str, max_symb);
+        string_tolower(circle[i].str, MAX_SYMB);
         skip_spaces(circle[i].str, converted_str);
-        correct_spelling_object(converted_str, max_symb);
+        correct_spelling_object(converted_str, MAX_SYMB);
         exit_code = check_points(converted_str);
-        circle_output(converted_str, i + 1);
-        if (exit_code != 0){
-        continue;
+        if (exit_code != 0) {
+            continue;
         }
-        perimeter_and_area(circle[i], max_symb);
+        get_points(converted_str, &circle[i]);
+        circle[i].radius = get_radius(converted_str);
     }
-    for (i = 0; i < sum_of_figures; i++){
-    free(circle[i].str);
+    for (i = 0; i < sum_of_figures; i++) {
+        circle_output(converted_str, i + 1);
+        perimeter_and_area(&circle[i]);
+        if (sum_of_figures > 1) {
+            intersections(i, circle, sum_of_figures);
+        }
+        printf("\n");
+    }
+    for (i = 0; i < sum_of_figures; i++) {
+        free(circle[i].str);
     }
     free(circle);
     return 0;

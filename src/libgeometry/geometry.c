@@ -1,19 +1,15 @@
 #include "libgeometry/geometry.h"
-#include <ctype.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 figure* init_figures(int sum_of_figures)
 {
     int i;
-    figure* ptr = malloc(sum_of_figures * sizeof(figure));
+    figure* ptr = calloc(sum_of_figures, sizeof(figure));
     if (!ptr) {
         return NULL;
     }
     for (i = 0; i < sum_of_figures; i++) {
-        ptr[i].str = malloc(MAX_SYMB * sizeof(char));
+        ptr[i].str = calloc(MAX_SYMB, sizeof(char));
+    //    ptr[i].intersections = calloc(sum_of_figures, sizeof(int));
         if (!ptr->str) {
             free(ptr);
             return NULL;
@@ -135,22 +131,31 @@ void circle_output(char* str, int index)
     printf("%d. ", index);
     fputs(str, stdout);
 }
-
-void perimeter_and_area(figure circle, int max_symb)
+double get_radius(char* str)
 {
-    int i, k;
-    char radius[10];
-    float area, perimeter;
-    for (i = 0; i < max_symb; i++) {
-        if ((circle.str[i] == ',') && (circle.str[i + 1] == ' ')) {
-            for (k = i; circle.str[k + 1] != ')'; k++) {
-                radius[k - i] = circle.str[k + 1];
-            }
-        };
+    char* radius_str;
+    double radius;
+    radius_str = calloc(MAX_SYMB, sizeof(char));
+    int i = 0;
+    while (str[i] != ',') {
+        i++;
     }
-    circle.radius = atof(radius);
-    area = M_PI * circle.radius * circle.radius;
-    perimeter = 2 * M_PI * circle.radius;
+    i = i + 2;
+    int k = 0;
+    while (str[i] != ')') {
+        radius_str[k] = str[i];
+        k++;
+        i++;
+    }
+    radius = atof(radius_str);
+    return radius;
+}
+
+void perimeter_and_area(figure *circle)
+{
+    double area, perimeter;
+    area = M_PI * circle->radius * circle->radius;
+    perimeter = 2 * M_PI * circle->radius;
     printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
 }
 void skip_spaces(char* str, char* conv_str)
@@ -190,6 +195,29 @@ void skip_spaces(char* str, char* conv_str)
     j++;
     conv_str[j] = '\n';
 }
+void get_points(char* str, figure* circle)
+{
+    int index_of_symbol, i;
+    char* point_str;
+    point_str = calloc(MAX_SYMB, sizeof(char));
+    index_of_symbol = 7;
+    i = 0;
+    while (str[index_of_symbol] != ' ') {
+        point_str[i] = str[index_of_symbol];
+        i++;
+        index_of_symbol++;
+    }
+    circle->x = atof(point_str);
+    index_of_symbol++;
+    i = 0;
+    while (str[index_of_symbol] != ',') {
+        point_str[i] = str[index_of_symbol];
+        i++;
+        index_of_symbol++;
+    }
+    circle->y = atof(point_str);
+    printf("%lf, %lf\n", circle->x, circle->y);
+}
 
 int skip_one_space(char str[], int i)
 {
@@ -202,5 +230,29 @@ int skip_one_space(char str[], int i)
 void arrow_output(char* arrow_str)
 {
     fputs(arrow_str, stdout);
+}
+
+void intersections(int index, figure* circle, int sum_of_figures)
+{
+    double x1 = circle[index].x;
+    double y1 = circle[index].y;
+    double radius1 = circle[index].radius;
+    double* x2 = calloc(sum_of_figures, sizeof(double));
+    double* y2 = calloc(sum_of_figures, sizeof(double));
+    double* radius2 = calloc(sum_of_figures, sizeof(double));
+    int i;
+    for (i = 0; i < sum_of_figures; i++) {
+        x2[i] = circle[i].x;
+        y2[i] = circle[i].y;
+        radius2[i] = circle[i].radius;
+    }
+    double d;
+    printf("intersets:\n");
+    for (i = 0; i < sum_of_figures; i++) {
+        d = sqrt(((x1 - x2[i]) * (x1 - x2[i])) + ((y1 - y2[i]) * (y1 - y2[i])));
+        if ((d < radius1 + radius2[i]) && (d > fabs(radius1 - radius2[i]))) {
+        printf("%d. circle \n", i);
+        }
+        }
 }
 
