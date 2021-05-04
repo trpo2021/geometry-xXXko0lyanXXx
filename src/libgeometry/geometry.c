@@ -25,7 +25,6 @@ int string_tolower(char* str, int max_symb)
         }
     }
     return 0;
-    
 }
 
 int correct_spelling_object(char* str)
@@ -116,7 +115,7 @@ double get_radius(char* str)
     return radius;
 }
 
-int perimeter_and_area(figure *circle)
+int perimeter_and_area(figure* circle)
 {
     double area, perimeter;
     area = M_PI * circle->radius * circle->radius;
@@ -155,8 +154,8 @@ int validation(char* str)
     i++;
     i = skip_spaces(str, i);
     i = check_rad(str, i);
-    if(i == -7){
-    return -7;
+    if (i == -7) {
+        return -7;
     }
     if (str[i] != ')') {
         return -6;
@@ -200,7 +199,7 @@ int convert_str(char* str, char* conv_str)
     j++;
     conv_str[j] = '\n';
     return 0;
-} 
+}
 int get_points(char* str, figure* circle)
 {
     int index_of_symbol, i;
@@ -252,8 +251,50 @@ int intersections(int index, figure* circle, int sum_of_figures)
     for (i = 0; i < sum_of_figures; i++) {
         d = sqrt(((x1 - x2[i]) * (x1 - x2[i])) + ((y1 - y2[i]) * (y1 - y2[i])));
         if ((d < radius1 + radius2[i]) && (d > fabs(radius1 - radius2[i]))) {
-        printf("%d. circle \n", i + 1);
+            printf("%d. circle \n", i + 1);
         }
-        }
-        return 0;
+    }
+    return 0;
 }
+int error_message(int exit_code)
+{
+    switch (exit_code) {
+    case -1:
+        printf("ERROR! Expected <double>\n");
+        print_example();
+        break;
+    case -2:
+        printf("ERROR! Uncorrect input \"object\"!\n");
+        printf("Did you mean \"circle\"?");
+        print_example();
+        break;
+    case -3:
+        printf("ERROR! Expected '('!\n");
+        print_example();
+        break;
+    case -4:
+        printf("ERROR! Expected 'space'!\n");
+        print_example();
+        break;
+    case -5:
+        printf("ERROR! Expected ','(comma)!\n");
+        print_example();
+        break;
+    case -6:
+        printf("ERROR! Expected ')'!\n");
+        print_example();
+        break;
+    case -7:
+        printf("ERROR! Expected <unsigned double>!\n");
+        print_example();
+        break;
+    }
+    return 0;
+}
+int print_example()
+{
+ printf("Example: object(double double, unsigned double)\n");
+ return 0;
+}
+
+

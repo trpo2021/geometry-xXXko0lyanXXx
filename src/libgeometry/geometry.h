@@ -32,3 +32,5 @@ int get_points(char* str, figure* circle);
 double get_radius(char* str);
 int intersections(int index, figure* circle, int sum_of_figures);
 int check_rad(char* str, int i);
+int error_message(int exit_code);
+int print_example();

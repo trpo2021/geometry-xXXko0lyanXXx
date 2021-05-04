@@ -34,6 +34,7 @@ int main(int argc, char** argv)
         string_tolower(circle[i].str, MAX_SYMB);
         exit_code = validation(circle[i].str);
         if (exit_code != 0) {
+        error_message(exit_code);
             continue;
         }
         convert_str(circle[i].str, converted_str[i]);
