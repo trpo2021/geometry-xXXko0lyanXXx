@@ -9,7 +9,6 @@ figure* init_figures(int sum_of_figures)
     }
     for (i = 0; i < sum_of_figures; i++) {
         ptr[i].str = calloc(MAX_SYMB, sizeof(char));
-    //    ptr[i].intersections = calloc(sum_of_figures, sizeof(int));
         if (!ptr->str) {
             free(ptr);
             return NULL;
@@ -17,7 +16,7 @@ figure* init_figures(int sum_of_figures)
     }
     return ptr;
 }
-void string_tolower(char* str, int max_symb)
+int string_tolower(char* str, int max_symb)
 {
     int i;
     for (i = 0; i < max_symb; i++) {
@@ -25,112 +24,78 @@ void string_tolower(char* str, int max_symb)
             str[i] = tolower(str[i]);
         }
     }
+    return 0;
+    
 }
 
-void correct_spelling_object(char* str, int max_symb)
+int correct_spelling_object(char* str)
 {
     char check_str[] = {'c', 'i', 'r', 'c', 'l', 'e'};
-    int j;
-    char* object_str;
-    object_str = (char*)calloc(max_symb, sizeof(char));
-    for (int i = 0; str[i] != '('; i++) {
-        object_str[i] = str[i];
+    int i = 0;
+    while (str[i] == check_str[i]) {
+        i++;
     }
-    j = strcmp(object_str, check_str);
-    if (j != 0) {
-        printf("ERROR! Input is not correct\n");
-        printf("\"%s\" Not found\nDid you mean \"circle\"?\n", object_str);
-        free(object_str);
-        free(str);
-        exit(1);
-    };
-    free(object_str);
+    if (i < 6) {
+        return -2;
+    }
+    return i;
 }
-int skip_digit(int i, char* str)
+int skip_digit(char* str, int i)
 {
     while (isdigit(str[i]) != 0) {
         i++;
     }
     return i;
 }
-int check_points(char* str)
+int check_rad(char* str, int i)
 {
-    int index_of_symbol = 0;
-    while (isalpha(str[index_of_symbol]) != 0) {
-        index_of_symbol++;
-    }
-    if (str[index_of_symbol] != '(') {
-        printf("Error! Expected '(' \n");
-        return -10;
-    }
-    index_of_symbol++;
-    if ((isdigit(str[index_of_symbol]) == 0) && (str[index_of_symbol] != '-')) {
-        return 1;
-    } else if (str[index_of_symbol] == '-') {
-        index_of_symbol++;
-    }
-    if (isdigit(str[index_of_symbol] == 0)) {
-        return -1;
-    }
-    index_of_symbol = skip_digit(index_of_symbol, str);
-    if (str[index_of_symbol] != '.') {
-        return -2;
-    }
-    index_of_symbol++;
-    index_of_symbol = skip_digit(index_of_symbol, str);
-    if (str[index_of_symbol] != ' ') {
-        return -3;
-    }
-    index_of_symbol++;
-    if ((isdigit(str[index_of_symbol]) == 0) && (str[index_of_symbol] != '-')) {
-        return 4;
-    } else if (str[index_of_symbol] == '-') {
-        index_of_symbol++;
-    }
-    if (isdigit(str[index_of_symbol]) == 0) {
-        return -4;
-    }
-    index_of_symbol = skip_digit(index_of_symbol, str);
-    if (str[index_of_symbol] != '.') {
-        return -5;
-    }
-    index_of_symbol++;
-    index_of_symbol = skip_digit(index_of_symbol, str);
-    if (str[index_of_symbol] != ',') {
-        return -6;
-    }
-    index_of_symbol++;
-    if (str[index_of_symbol] != ' ') {
+    if (str[i] == '-') {
         return -7;
     }
-    index_of_symbol++;
-    if ((isdigit(str[index_of_symbol]) == 0) && (str[index_of_symbol] != '-')) {
-        return 8;
-    } else if (str[index_of_symbol] == '-') {
-        index_of_symbol++;
+    if (isdigit(str[i]) == 0) {
+        return -7;
     }
-    if (isdigit(str[index_of_symbol]) == 0) {
-        return -8;
+    i = skip_digit(str, i);
+    if (str[i] != '.') {
+        return -7;
+    } else {
+        i++;
     }
-    index_of_symbol = skip_digit(index_of_symbol, str);
-    if (str[index_of_symbol] != '.') {
-        return -9;
+    if (isdigit(str[i]) == 0) {
+        return -7;
     }
-    index_of_symbol++;
-    index_of_symbol = skip_digit(index_of_symbol, str);
-    if (str[index_of_symbol] != ')') {
-        printf("Error! Expected ')' \n");
-        return 10;
-    }
-
-    return 0;
+    i = skip_digit(str, i);
+    return i;
 }
 
-void circle_output(char* str, int index)
+int check_point(char* str, int i)
+{
+    if (str[i] == '-') {
+        i++;
+    }
+    if (isdigit(str[i]) == 0) {
+        return -1;
+    }
+    i = skip_digit(str, i);
+    if (str[i] != '.') {
+        return -1;
+    } else {
+        i++;
+    }
+    if (isdigit(str[i]) == 0) {
+        return -1;
+    }
+    i = skip_digit(str, i);
+    return i;
+}
+
+int circle_output(char* str, int index)
 {
     printf("%d. ", index);
     fputs(str, stdout);
+    return 0;
 }
+
 double get_radius(char* str)
 {
     char* radius_str;
@@ -151,17 +116,57 @@ double get_radius(char* str)
     return radius;
 }
 
-void perimeter_and_area(figure *circle)
+int perimeter_and_area(figure *circle)
 {
     double area, perimeter;
     area = M_PI * circle->radius * circle->radius;
     perimeter = 2 * M_PI * circle->radius;
     printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
+    return 0;
 }
-void skip_spaces(char* str, char* conv_str)
+int validation(char* str)
+{
+    int i;
+    i = correct_spelling_object(str);
+    if (i == -2) {
+        return -2;
+    }
+    i = skip_spaces(str, i);
+    if (str[i] != '(') {
+        return -3;
+    }
+    i++;
+    i = check_point(str, i);
+    if (i == -1) {
+        return -1;
+    }
+    if (str[i] != ' ') {
+        return -4;
+    }
+    i = skip_spaces(str, i);
+    i = check_point(str, i);
+    if (i == -1) {
+        return -1;
+    }
+    i = skip_spaces(str, i);
+    if (str[i] != ',') {
+        return -5;
+    }
+    i++;
+    i = skip_spaces(str, i);
+    i = check_rad(str, i);
+    if(i == -7){
+    return -7;
+    }
+    if (str[i] != ')') {
+        return -6;
+    }
+    return 0;
+}
+int convert_str(char* str, char* conv_str)
 {
     int i = 0, j;
-    i = skip_one_space(str, i);
+    i = skip_spaces(str, i);
     for (j = 0; (str[i] != '(') && (str[i] != ' '); i++, j++) {
         conv_str[j] = str[i];
     }
@@ -175,7 +180,7 @@ void skip_spaces(char* str, char* conv_str)
     }
     conv_str[j] = ' ';
     j++;
-    i = skip_one_space(str, i);
+    i = skip_spaces(str, i);
     for (; (str[i] != ',') && (str[i] != ' '); i++, j++) {
         conv_str[j] = str[i];
     }
@@ -183,19 +188,20 @@ void skip_spaces(char* str, char* conv_str)
     j++;
     conv_str[j] = ' ';
     j++;
-    i = skip_one_space(str, i);
+    i = skip_spaces(str, i);
     if (str[i] == ',') {
         i++;
     }
-    i = skip_one_space(str, i);
+    i = skip_spaces(str, i);
     for (; (str[i] != ')') && (str[i] != ' '); i++, j++) {
         conv_str[j] = str[i];
     }
     conv_str[j] = ')';
     j++;
     conv_str[j] = '\n';
-}
-void get_points(char* str, figure* circle)
+    return 0;
+} 
+int get_points(char* str, figure* circle)
 {
     int index_of_symbol, i;
     char* point_str;
@@ -217,22 +223,17 @@ void get_points(char* str, figure* circle)
     }
     circle->y = atof(point_str);
     printf("%lf, %lf\n", circle->x, circle->y);
+    return 0;
 }
 
-int skip_one_space(char str[], int i)
+int skip_spaces(char str[], int i)
 {
     while (str[i] == ' ') {
         i++;
     }
     return i;
 }
-
-void arrow_output(char* arrow_str)
-{
-    fputs(arrow_str, stdout);
-}
-
-void intersections(int index, figure* circle, int sum_of_figures)
+int intersections(int index, figure* circle, int sum_of_figures)
 {
     double x1 = circle[index].x;
     double y1 = circle[index].y;
@@ -251,8 +252,8 @@ void intersections(int index, figure* circle, int sum_of_figures)
     for (i = 0; i < sum_of_figures; i++) {
         d = sqrt(((x1 - x2[i]) * (x1 - x2[i])) + ((y1 - y2[i]) * (y1 - y2[i])));
         if ((d < radius1 + radius2[i]) && (d > fabs(radius1 - radius2[i]))) {
-        printf("%d. circle \n", i);
+        printf("%d. circle \n", i + 1);
         }
         }
+        return 0;
 }
-

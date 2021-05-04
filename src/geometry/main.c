@@ -4,8 +4,6 @@ int main(int argc, char** argv)
 {
     int i;
     int sum_of_figures, exit_code;
-
-    char* converted_str = calloc(MAX_SYMB, sizeof(char));
     if (argc > 2) {
         printf("Invalid number of parameters\n");
         printf("./geometry <number of circles>\n");
@@ -27,19 +25,23 @@ int main(int argc, char** argv)
     for (i = 0; i < sum_of_figures; i++) {
         fgets(circle[i].str, MAX_SYMB, stdin);
     }
+    char** converted_str;
+    converted_str = malloc(sum_of_figures * sizeof(char*));
+    for(i = 0; i < sum_of_figures; i++){
+    converted_str[i] = calloc(MAX_SYMB , sizeof(char));
+    }
     for (i = 0; i < sum_of_figures; i++) {
         string_tolower(circle[i].str, MAX_SYMB);
-        skip_spaces(circle[i].str, converted_str);
-        correct_spelling_object(converted_str, MAX_SYMB);
-        exit_code = check_points(converted_str);
+        exit_code = validation(circle[i].str);
         if (exit_code != 0) {
             continue;
         }
-        get_points(converted_str, &circle[i]);
-        circle[i].radius = get_radius(converted_str);
+        convert_str(circle[i].str, converted_str[i]);
+        get_points(converted_str[i], &circle[i]);
+        circle[i].radius = get_radius(converted_str[i]);
     }
     for (i = 0; i < sum_of_figures; i++) {
-        circle_output(converted_str, i + 1);
+        circle_output(converted_str[i], i + 1);
         perimeter_and_area(&circle[i]);
         if (sum_of_figures > 1) {
             intersections(i, circle, sum_of_figures);
