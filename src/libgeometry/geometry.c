@@ -293,8 +293,33 @@ int error_message(int exit_code)
 }
 int print_example()
 {
- printf("Example: object(double double, unsigned double)\n");
- return 0;
+    printf("Example: object(double double, unsigned double)\n");
+    return 0;
 }
+int check_exit_codes(int* exit_code, int sum_of_figures, figure* circle)
+{
+    int i;
+    int invalid_inputs = 0;
+    for (i = 0; i < sum_of_figures; i++) {
+        if (exit_code[i] != 0) {
+            invalid_inputs++;
+        }
+    }
 
+    if (invalid_inputs != 0) {
+        for (i = 0; i < sum_of_figures; i++) {
+            if (exit_code[i] != 0) {
+                circle_output(circle[i].str, i + 1);
+                error_message(exit_code[i]);
 
+            } else {
+                circle_output(circle[i].str, i + 1);
+                printf("this input is correct, please correct ");
+                printf("the input in the rest of the figures to get the "
+                       "result\n");
+            }
+        }
+        exit(1);
+    }
+    return 0;
+}

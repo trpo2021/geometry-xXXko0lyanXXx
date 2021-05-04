@@ -3,7 +3,7 @@
 int main(int argc, char** argv)
 {
     int i;
-    int sum_of_figures, exit_code;
+    int sum_of_figures;
     if (argc > 2) {
         printf("Invalid number of parameters\n");
         printf("./geometry <number of circles>\n");
@@ -27,21 +27,19 @@ int main(int argc, char** argv)
     }
     char** converted_str;
     converted_str = malloc(sum_of_figures * sizeof(char*));
-    for(i = 0; i < sum_of_figures; i++){
-    converted_str[i] = calloc(MAX_SYMB , sizeof(char));
+    for (i = 0; i < sum_of_figures; i++) {
+        converted_str[i] = calloc(MAX_SYMB, sizeof(char));
     }
+    int exit_code[sum_of_figures];
     for (i = 0; i < sum_of_figures; i++) {
         string_tolower(circle[i].str, MAX_SYMB);
-        exit_code = validation(circle[i].str);
-        if (exit_code != 0) {
-        error_message(exit_code);
-            continue;
-        }
+        exit_code[i] = validation(circle[i].str);
+    }
+    check_exit_codes(exit_code, sum_of_figures, circle);
+    for (i = 0; i < sum_of_figures; i++) {
         convert_str(circle[i].str, converted_str[i]);
         get_points(converted_str[i], &circle[i]);
         circle[i].radius = get_radius(converted_str[i]);
-    }
-    for (i = 0; i < sum_of_figures; i++) {
         circle_output(converted_str[i], i + 1);
         perimeter_and_area(&circle[i]);
         if (sum_of_figures > 1) {

@@ -34,3 +34,4 @@ int intersections(int index, figure* circle, int sum_of_figures);
 int check_rad(char* str, int i);
 int error_message(int exit_code);
 int print_example();
+int check_exit_codes(int* exit_code, int sum_of_figures, figure* circle);
