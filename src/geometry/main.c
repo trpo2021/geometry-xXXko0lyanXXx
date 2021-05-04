@@ -41,7 +41,8 @@ int main(int argc, char** argv)
         get_points(converted_str[i], &circle[i]);
         circle[i].radius = get_radius(converted_str[i]);
         circle_output(converted_str[i], i + 1);
-        perimeter_and_area(&circle[i]);
+        perimeter(&circle[i]);
+        area(&circle[i]);
         if (sum_of_figures > 1) {
             intersections(i, circle, sum_of_figures);
         }
@@ -49,7 +50,9 @@ int main(int argc, char** argv)
     }
     for (i = 0; i < sum_of_figures; i++) {
         free(circle[i].str);
+        free(converted_str[i]);
     }
+    free(converted_str);
     free(circle);
     return 0;
 }

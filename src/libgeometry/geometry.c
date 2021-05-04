@@ -112,17 +112,26 @@ double get_radius(char* str)
         i++;
     }
     radius = atof(radius_str);
+    free(radius_str);
     return radius;
 }
 
-int perimeter_and_area(figure* circle)
+double perimeter(figure* circle)
 {
-    double area, perimeter;
-    area = M_PI * circle->radius * circle->radius;
+    double perimeter;
     perimeter = 2 * M_PI * circle->radius;
-    printf("area = %.3f\nperimeter = %.3f\n", area, perimeter);
-    return 0;
+    printf("perimeter = %.3f\n", perimeter);
+    return perimeter;
 }
+
+double area(figure* circle)
+{
+    double area;
+    area = M_PI * circle->radius * circle->radius;
+    printf("area = %.3f\n", area);
+    return area;
+}
+
 int validation(char* str)
 {
     int i;
@@ -221,7 +230,7 @@ int get_points(char* str, figure* circle)
         index_of_symbol++;
     }
     circle->y = atof(point_str);
-    printf("%lf, %lf\n", circle->x, circle->y);
+    free(point_str);
     return 0;
 }
 
@@ -254,6 +263,9 @@ int intersections(int index, figure* circle, int sum_of_figures)
             printf("%d. circle \n", i + 1);
         }
     }
+    free(x2);
+    free(y2);
+    free(radius2);
     return 0;
 }
 int error_message(int exit_code)
