@@ -147,4 +147,27 @@ CTEST(correct_spelling_object, uncorrect_object)
     ASSERT_EQUAL(expect, result);
 }
 
+CTEST(area, small_input)
+{
+    circle = init_figures(1);
+    circle[1].radius = 10.00;
+    int expect = 314.159;
+    int result = area(&circle[1]);
+    ASSERT_DBL_NEAR(expect, result);
+    free(circle[1].str);
+    free(circle);
+}
+
+CTEST(area, big_input)
+{
+    circle = init_figures(1);
+    circle[1].radius = 501.19;
+    double expect = 789141.107;
+    double result = area(&circle[1]);
+    ASSERT_DBL_NEAR_TOL(expect, result, 1.000e-03);
+    free(circle[1].str);
+    free(circle);
+}
+
+
 
