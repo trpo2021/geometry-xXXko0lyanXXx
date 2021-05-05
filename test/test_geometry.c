@@ -328,5 +328,55 @@ CTEST(intersections, one_center_one_rad)
     ASSERT_EQUAL(expect, result);
 }
 
+CTEST(check_rad, right_rad)
+{
+    char input_str[] = "circle(1.00 2.00, 658.345)";
+    int input_index = 18;
+    int expect = 25;
+
+    int result = check_rad(input_str, input_index);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(check_rad, negative_rad)
+{
+    char input_str[] = "circle(1.00 2.00, -658.345)";
+    int input_index = 18;
+    int expect = -7;
+
+    int result = check_rad(input_str, input_index);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(check_rad, without_dot )
+{
+    char input_str[] = "circle(1.00 2.00, 658\345)";
+    int input_index = 18;
+    int expect = -7;
+
+    int result = check_rad(input_str, input_index);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(check_rad, unexpected_token)
+{
+    char input_str[] = "circle(1.00 2.00, 65a8.345)";
+    int input_index = 18;
+    int expect = -7;
+
+    int result = check_rad(input_str, input_index);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(check_rad, unexpected_token_in_start)
+{
+    char input_str[] = "circle(1.00 2.00, '658.345)";
+    int input_index = 18;
+    int expect = -7;
+
+    int result = check_rad(input_str, input_index);
+    ASSERT_EQUAL(expect, result);
+}
+
 
 
