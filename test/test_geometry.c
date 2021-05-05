@@ -191,5 +191,27 @@ CTEST(perimeter, big_input)
     free(circle);
 }
 
+CTEST(string_tolower, small_letters)
+{
+    char input_str[] = "circle(1.00 2.00, 3.00)";
+    char expect_str[] = "circle(1.00 2.00, 3.00)";
+
+    int expect = 0;
+    int result = string_tolower(input_str);
+    ASSERT_EQUAL(expect, result);
+    ASSERT_STR(expect_str, input_str);
+}
+
+CTEST(string_tolower, caps_lock)
+{
+    char input_str[] = "CIRCLE(1.00 2.00, 3.00)";
+    char expect_str[] = "circle(1.00 2.00, 3.00)";
+
+    int expect = 0;
+    int result = string_tolower(input_str);
+    ASSERT_EQUAL(expect, result);
+    ASSERT_STR(expect_str, input_str);
+}
+
 
 
