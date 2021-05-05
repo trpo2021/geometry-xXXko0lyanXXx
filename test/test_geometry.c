@@ -73,6 +73,21 @@ CTEST(validation, miss_space)
     ASSERT_EQUAL(expect, result);
 }
 
+CTEST(skip_spaces, skip_one_space)
+{
+    char input_str[] = "circle( 123.00 12.00, 5784.00)\n";
+    int input_index = 7;
+    int expect = 8;
+    int result = skip_spaces(input_str, input_index);
+    ASSERT_EQUAL(expect, result);
+}
 
-
+CTEST(skip_spaces, skip_spaces_in_start)
+{
+    char input_str[] = "        circle(123.00 12.00, 5784.00)\n";
+    int input_index = 0;
+    int expect = 8;
+    int result = skip_spaces(input_str, input_index);
+    ASSERT_EQUAL(expect, result);
+}
 
