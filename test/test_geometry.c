@@ -91,3 +91,23 @@ CTEST(skip_spaces, skip_spaces_in_start)
     ASSERT_EQUAL(expect, result);
 }
 
+CTEST(skip_digit, skip_digit_before_dot)
+{
+    char input_str[] = "circle(123.00 12.00, 5784.00)\n";
+    int input_index = 8;
+    int expect = 10;
+    int result = skip_digit(input_str, input_index);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(skip_digit, skip_digit_after_dot)
+{
+    char input_str[] = "circle(123.00 12.00, 5784.00)\n";
+    int input_index = 11;
+    int expect = 13;
+    int result = skip_digit(input_str, input_index);
+    ASSERT_EQUAL(expect, result);
+}
+
+
+
