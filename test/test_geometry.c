@@ -213,5 +213,35 @@ CTEST(string_tolower, caps_lock)
     ASSERT_STR(expect_str, input_str);
 }
 
+CTEST(get_points, positive)
+{
+    circle = init_figures(1);
+    char input_str[] = "circle(34.4242 9338.131, 3.00)";
+    int expect = 0;
+    double expect_x = 34.4242;
+    double expect_y = 9338.131;
+    int result = get_points(input_str, &circle[1]);
+    ASSERT_EQUAL(expect, result);
+    ASSERT_DBL_NEAR(expect_x, circle[1].x);
+    ASSERT_DBL_NEAR(expect_y, circle[1].y);
+    free(circle[1].str);
+    free(circle);
+}
+
+CTEST(get_points, negative)
+{
+    circle = init_figures(1);
+    char input_str[] = "circle(-89243.3221 -1414.2992, 3.00)";
+    int expect = 0;
+    double expect_x = -89243.3221;
+    double expect_y = -1414.2992;
+    int result = get_points(input_str, &circle[1]);
+    ASSERT_EQUAL(expect, result);
+    ASSERT_DBL_NEAR(expect_x, circle[1].x);
+    ASSERT_DBL_NEAR(expect_y, circle[1].y);
+    free(circle[1].str);
+    free(circle);
+}
+
 
 
