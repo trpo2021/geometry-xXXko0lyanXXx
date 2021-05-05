@@ -348,7 +348,7 @@ CTEST(check_rad, negative_rad)
     ASSERT_EQUAL(expect, result);
 }
 
-CTEST(check_rad, without_dot )
+CTEST(check_rad, without_dot)
 {
     char input_str[] = "circle(1.00 2.00, 658\345)";
     int input_index = 18;
@@ -377,6 +377,3 @@ CTEST(check_rad, unexpected_token_in_start)
     int result = check_rad(input_str, input_index);
     ASSERT_EQUAL(expect, result);
 }
-
-
-

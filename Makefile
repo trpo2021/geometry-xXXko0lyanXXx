@@ -2,7 +2,7 @@ APP_NAME = geometry
 LIB_NAME = libgeometry
 APP_TEST_NAME = test_geometry
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -O0 -g3
 CPPFLAGS = -I thirdparty -I src -MP -MMD
 
 BIN_DIR = bin

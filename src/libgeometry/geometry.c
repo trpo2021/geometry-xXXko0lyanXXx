@@ -264,7 +264,6 @@ int intersections(int index, figure* circle, int sum_of_figures)
         if ((d < radius1 + radius2[i]) && (d > fabs(radius1 - radius2[i]))) {
             printf("%d. circle \n", i + 1);
             counter_for_tests++;
-            
         }
     }
     free(x2);

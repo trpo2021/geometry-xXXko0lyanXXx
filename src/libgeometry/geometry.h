@@ -6,10 +6,10 @@
 #include <string.h>
 #define MAX_SYMB 100
 
-typedef struct{
+typedef struct {
     char* str;
-    
-    double radius;    
+
+    double radius;
     double x;
     double y;
 } figure;
