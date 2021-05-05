@@ -169,5 +169,27 @@ CTEST(area, big_input)
     free(circle);
 }
 
+CTEST(perimeter, small_input)
+{
+    circle = init_figures(1);
+    circle[1].radius = 30.00;
+    double expect = 188.496;
+    double result = perimeter(&circle[1]);
+    ASSERT_DBL_NEAR_TOL(expect, result, 1.000e-03);
+    free(circle[1].str);
+    free(circle);
+}
+
+CTEST(perimeter, big_input)
+{
+    circle = init_figures(1);
+    circle[1].radius = 906.13;
+    double expect = 5693.383;
+    double result = perimeter(&circle[1]);
+    ASSERT_DBL_NEAR_TOL(expect, result, 1.000e-03);
+    free(circle[1].str);
+    free(circle);
+}
+
 
 
