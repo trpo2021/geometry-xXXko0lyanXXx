@@ -131,3 +131,20 @@ CTEST(convert_str, delete_random_spaces)
     ASSERT_EQUAL(expect, result);
 }
 
+CTEST(correct_spelling_object, correct_object)
+{
+    char input_str[] = "circle(123.00 12.00, 5784.00)\n";
+    int expect = 6;
+    int result = correct_spelling_object(input_str);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(correct_spelling_object, uncorrect_object)
+{
+    char input_str[] = "cirlle(123.00 12.00, 5784.00)\n";
+    int expect = -2;
+    int result = correct_spelling_object(input_str);
+    ASSERT_EQUAL(expect, result);
+}
+
+
