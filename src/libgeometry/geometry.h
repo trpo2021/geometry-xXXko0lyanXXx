@@ -24,7 +24,7 @@ int correct_spelling_object(char* only_letters);
 int circle_output(char* str, int index);
 double perimeter(figure* circle);
 double area(figure* circle);
-int string_tolower(char* str, int max_symb);
+int string_tolower(char* str);
 int get_points(char* str, figure* circle);
 double get_radius(char* str);
 int intersections(int index, figure* circle, int sum_of_figures);

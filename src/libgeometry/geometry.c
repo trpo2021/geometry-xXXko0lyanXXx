@@ -16,10 +16,10 @@ figure* init_figures(int sum_of_figures)
     }
     return ptr;
 }
-int string_tolower(char* str, int max_symb)
+int string_tolower(char* str)
 {
     int i;
-    for (i = 0; i < max_symb; i++) {
+    for (i = 0; str[i] != '\0'; i++) {
         if (isalpha(str[i]) != 0) {
             str[i] = tolower(str[i]);
         }
@@ -241,8 +241,10 @@ int skip_spaces(char str[], int i)
     }
     return i;
 }
+
 int intersections(int index, figure* circle, int sum_of_figures)
 {
+    int counter_for_tests = 0;
     double x1 = circle[index].x;
     double y1 = circle[index].y;
     double radius1 = circle[index].radius;
@@ -261,12 +263,14 @@ int intersections(int index, figure* circle, int sum_of_figures)
         d = sqrt(((x1 - x2[i]) * (x1 - x2[i])) + ((y1 - y2[i]) * (y1 - y2[i])));
         if ((d < radius1 + radius2[i]) && (d > fabs(radius1 - radius2[i]))) {
             printf("%d. circle \n", i + 1);
+            counter_for_tests++;
+            
         }
     }
     free(x2);
     free(y2);
     free(radius2);
-    return 0;
+    return counter_for_tests;
 }
 int error_message(int exit_code)
 {

@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     }
     int exit_code[sum_of_figures];
     for (i = 0; i < sum_of_figures; i++) {
-        string_tolower(circle[i].str, MAX_SYMB);
+        string_tolower(circle[i].str);
         exit_code[i] = validation(circle[i].str);
     }
     check_exit_codes(exit_code, sum_of_figures, circle);
