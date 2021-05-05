@@ -1,0 +1,10 @@
+*.a
+
+*.d
+
+*.o
+
+*.swp
+
+bin/geometry
+bin/test/test_geometry
