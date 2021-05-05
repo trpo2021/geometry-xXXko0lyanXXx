@@ -243,5 +243,13 @@ CTEST(get_points, negative)
     free(circle);
 }
 
+CTEST(get_radius, right_input)
+{
+    char input_str[] = "circle(8449393.42 -121.32, 1991.3993)";
+    double expect = 1991.3993;
+    double result = get_radius(input_str);
+    ASSERT_DBL_NEAR_TOL(expect, result, 1.000e-03);
+}
+
 
 
