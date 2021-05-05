@@ -109,5 +109,25 @@ CTEST(skip_digit, skip_digit_after_dot)
     ASSERT_EQUAL(expect, result);
 }
 
+CTEST(convert_str, correct_str)
+{
+    char input_str1[] = "circle(123.00 12.00, 5784.00)\n";
+    char input_str2[50];
+    char expect_str[] = "circle(123.00 12.00, 5784.00)\n";
+    int expect = 0;
+    int result = convert_str(input_str1, input_str2);
+    ASSERT_STR(input_str2, expect_str);
+    ASSERT_EQUAL(expect, result);
+}
 
+CTEST(convert_str, delete_random_spaces)
+{
+    char input_str1[] = "  circle  (  123.00    12.00  ,    5784.00  )  \n";
+    char input_str2[50];
+    char expect_str[] = "circle(123.00 12.00, 5784.00)\n";
+    int expect = 0;
+    int result = convert_str(input_str1, input_str2);
+    ASSERT_STR(input_str2, expect_str);
+    ASSERT_EQUAL(expect, result);
+}
 
