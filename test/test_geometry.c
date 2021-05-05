@@ -251,5 +251,82 @@ CTEST(get_radius, right_input)
     ASSERT_DBL_NEAR_TOL(expect, result, 1.000e-03);
 }
 
+CTEST(intersections, one_circle)
+{
+    int index_of_figure = 1;
+    int sum_of_figures = 1;
+    circle = init_figures(1);
+    circle[0].x = 2.00;
+    circle[0].y = 3.00;
+    circle[0].radius = 2.00;
+    int expect = 0;
+    int result = intersections(index_of_figure, circle, sum_of_figures);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(intersections, circles_not_intersets)
+{
+    int index_of_figure = 1;
+    int sum_of_figures = 2;
+    circle = init_figures(sum_of_figures);
+    circle[0].x = -2.00;
+    circle[0].y = 3.00;
+    circle[0].radius = 5.00;
+    circle[1].x = 13.00;
+    circle[1].y = -3.00;
+    circle[1].radius = 9;
+    int expect = 0;
+    int result = intersections(index_of_figure, circle, sum_of_figures);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(intersections, circles_intersets)
+{
+    int index_of_figure = 1;
+    int sum_of_figures = 2;
+    circle = init_figures(sum_of_figures);
+    circle[0].x = -2.00;
+    circle[0].y = 3.00;
+    circle[0].radius = 5.00;
+    circle[1].x = 10.00;
+    circle[1].y = -3.00;
+    circle[1].radius = 9.00;
+    int expect = 1;
+    int result = intersections(index_of_figure, circle, sum_of_figures);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(intersections, one_center_different_rad)
+{
+    int index_of_figure = 1;
+    int sum_of_figures = 2;
+    circle = init_figures(sum_of_figures);
+    circle[0].x = -2.00;
+    circle[0].y = 3.00;
+    circle[0].radius = 5.00;
+    circle[1].x = -2.00;
+    circle[1].y = 3.00;
+    circle[1].radius = 9.00;
+    int expect = 0;
+    int result = intersections(index_of_figure, circle, sum_of_figures);
+    ASSERT_EQUAL(expect, result);
+}
+
+CTEST(intersections, one_center_one_rad)
+{
+    int index_of_figure = 1;
+    int sum_of_figures = 2;
+    circle = init_figures(sum_of_figures);
+    circle[0].x = -2.00;
+    circle[0].y = 3.00;
+    circle[0].radius = 5.00;
+    circle[1].x = -2.00;
+    circle[1].y = 3.00;
+    circle[1].radius = 5.00;
+    int expect = 0;
+    int result = intersections(index_of_figure, circle, sum_of_figures);
+    ASSERT_EQUAL(expect, result);
+}
+
 
 
